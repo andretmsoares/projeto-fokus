@@ -1,5 +1,7 @@
 const btnAddTarefa = document.querySelector('.app__button--add-task')
 const formAddTarefa = document.querySelector('.app__form-add-task')
+const btnCancelarAddTarefa = document.querySelector('.app__form-footer__button.app__form-footer__button--cancel')
+const btnDeletarTarefa = document.querySelector('.app__form-footer__button.app__form-footer__button--delete')
 const textArea = document.querySelector('.app__form-textarea')
 const ulTarefas = document.querySelector('.app__section-task-list')
 const paragrafoDescricaoTarefa = document.querySelector('.app__section-active-task-description')
@@ -94,6 +96,15 @@ formAddTarefa.addEventListener('submit', (evento) => {
     atualizarTarefas()
     textArea.value = ''
     formAddTarefa.classList.add('hidden')
+})
+
+btnCancelarAddTarefa.addEventListener('click', () => {
+    formAddTarefa.classList.add('hidden')
+    textArea.value = ''
+})
+
+btnDeletarTarefa.addEventListener('click', () => {
+    textArea.value = ''
 })
 
 tarefas.forEach(tarefa => {
