@@ -15,7 +15,7 @@ const musicaPause = new Audio('./sons/pause.mp3')
 const musicaFinish = new Audio('./sons/beep.mp3')
 const timeInScreen = document.querySelector('#timer')
 
-let tempoDecorridoEmSegundos = 1500
+let tempoDecorridoEmSegundos = 30
 let intervaloId = null
 
 musica.loop = true
