@@ -4,7 +4,7 @@ const textArea = document.querySelector('.app__form-textarea')
 const ulTarefas = document.querySelector('.app__section-task-list')
 const paragrafoDescricaoTarefa = document.querySelector('.app__section-active-task-description')
 
-const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [] 
+const tarefas = JSON.parse(localStorage.getItem('tarefas')) || []
 let tarefasSelecionada = null
 let liTarefaSelecionada = null
 
@@ -44,29 +44,34 @@ function criarElementoTarefa(tarefa) {
 
     imagemBotao.setAttribute('src', './imagens/edit.png')
     botao.append(imagemBotao)
-    
+
     li.append(svg)
     li.append(p)
     li.append(botao)
 
-    li.onclick = () => {
-        document.querySelectorAll('.app__section-task-list-item-active')
-            .forEach(element => {
-                element.classList.remove('app__section-task-list-item-active')
-            })
+    if (tarefa.completa) {
+        li.classList.add('app__section-task-list-item-complete')
+        botao.setAttribute('disabled', 'disabled')
+    } else {
+        li.onclick = () => {
+            document.querySelectorAll('.app__section-task-list-item-active')
+                .forEach(element => {
+                    element.classList.remove('app__section-task-list-item-active')
+                })
 
-        if (tarefasSelecionada == tarefa) {
-            paragrafoDescricaoTarefa.textContent = ''
-            tarefasSelecionada = null
-            liTarefaSelecionada = null
-            return
+            if (tarefasSelecionada == tarefa) {
+                paragrafoDescricaoTarefa.textContent = ''
+                tarefasSelecionada = null
+                liTarefaSelecionada = null
+                return
+            }
+
+            tarefasSelecionada = tarefa
+            liTarefaSelecionada = li
+            paragrafoDescricaoTarefa.textContent = tarefa.descricao
+
+            li.classList.add('app__section-task-list-item-active')
         }
-
-        tarefasSelecionada = tarefa
-        liTarefaSelecionada = li
-        paragrafoDescricaoTarefa.textContent = tarefa.descricao
-        
-        li.classList.add('app__section-task-list-item-active')
     }
 
     return li
@@ -99,5 +104,7 @@ document.addEventListener('FocoFinalizado', () => {
         liTarefaSelecionada.classList.remove('app__section-task-list-item-active')
         liTarefaSelecionada.classList.add('app__section-task-list-item-complete')
         liTarefaSelecionada.querySelector('button').setAttribute('disabled', 'disabled')
+        tarefasSelecionada.completa = true
+        atualizarTarefas()
     }
 })
